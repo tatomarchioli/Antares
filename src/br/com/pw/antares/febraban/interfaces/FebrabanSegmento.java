@@ -2,7 +2,7 @@ package br.com.pw.antares.febraban.interfaces;
 
 public interface FebrabanSegmento<T> {
 	/**
-	 * Enumera todos os tipos de registros poss�veis.*/
+	 * Enumera todos os tipos de registros possíveis.*/
 	public enum TipoRegistro{
 		HEADER_ARQUIVO(0),
 		HEADER(1),
@@ -24,7 +24,7 @@ public interface FebrabanSegmento<T> {
 	}
 	
 	/**
-	 * Enumera todos os tipos de segmentos poss�veis.*/
+	 * Enumera todos os tipos de segmentos possíveis.*/
 	public enum TipoSegmento{
 		A("A"),
 		B("B"),
@@ -49,9 +49,9 @@ public interface FebrabanSegmento<T> {
 	/**
 	 * Retorna uma string contendo todos os campos contidos no segmento, formatados
 	 * e concatenados, prontos para serem adicionados ao arquivo.*/
-	public String getAsLine() throws Exception ;
+	public String toLinha() throws Exception ;
 	
 	/**
 	 * Seta todos os valores do segmento a partir de uma string vinda do arquivo.*/
-	public T setFromLine(String line) throws Exception ;
+	public T fromLinha(String line) throws Exception ;
 }

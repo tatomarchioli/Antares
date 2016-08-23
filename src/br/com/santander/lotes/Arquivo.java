@@ -16,7 +16,7 @@ import br.com.pw.antares.febraban.interfaces.FebrabanSegmento;
 import br.com.pw.antares.febraban.segmentos.HeaderArquivo;
 import br.com.pw.antares.febraban.segmentos.TrailerArquivo;
 import br.com.pw.antares.util.Tools;
-import br.com.santander.interfaces.FebrabanLote;
+import br.com.pw.antares.interfaces.FebrabanLote;
 
 public class Arquivo{
 	private int id;
@@ -52,11 +52,11 @@ public class Arquivo{
 
 	public List<String> gerarLinhas() throws Exception {
 		List<String> list = new ArrayList<>();
-		list.add(header.getAsLine());
+		list.add(header.toLinha());
 		for(FebrabanLote lote : lotes){
 			list.addAll(lote.getLinhas());
 		}
-		list.add(trailer.getAsLine());
+		list.add(trailer.toLinha());
 		return list;
 	}
 
@@ -101,11 +101,11 @@ public class Arquivo{
 
 			switch (tipoLinha) {
 			case HEADER_ARQUIVO: {
-				arq.setHeader(new HeaderArquivo().setFromLine(line));
+				arq.setHeader(new HeaderArquivo().fromLinha(line));
 				break;
 			}
 			case TRAILER_ARQUIVO: {
-				arq.setTrailer(new TrailerArquivo().setFromLine(line));
+				arq.setTrailer(new TrailerArquivo().fromLinha(line));
 				break;
 			}
 			case HEADER:{

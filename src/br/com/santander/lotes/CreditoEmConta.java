@@ -9,7 +9,7 @@ import br.com.pw.antares.febraban.segmentos.SegmentoA;
 import br.com.pw.antares.febraban.segmentos.SegmentoB;
 import br.com.pw.antares.febraban.segmentos.SegmentoZ;
 import br.com.pw.antares.febraban.segmentos.Trailer;
-import br.com.santander.interfaces.FebrabanLote;
+import br.com.pw.antares.interfaces.FebrabanLote;
 
 public class CreditoEmConta implements FebrabanLote<CreditoEmConta>{
 	private Header header;
@@ -89,11 +89,11 @@ public class CreditoEmConta implements FebrabanLote<CreditoEmConta>{
 		}
 
 		List<String> list = new ArrayList<>();
-		list.add(header.getAsLine());
-		list.add(segmentoA.getAsLine());
+		list.add(header.toLinha());
+		list.add(segmentoA.toLinha());
 		if(segmentoB != null)
-			list.add(segmentoB.getAsLine());
-		list.add(trailer.getAsLine());
+			list.add(segmentoB.toLinha());
+		list.add(trailer.toLinha());
 		return list;
 	}
 
@@ -101,8 +101,8 @@ public class CreditoEmConta implements FebrabanLote<CreditoEmConta>{
 	@SuppressWarnings("incomplete-switch")
 	@Override
 	public CreditoEmConta setLinhas(List<String> linhas) throws Exception {
-		header = new Header().setFromLine(linhas.get(0));
-		trailer = new Trailer().setFromLine(linhas.get(linhas.size()-1));
+		header = new Header().fromLinha(linhas.get(0));
+		trailer = new Trailer().fromLinha(linhas.get(linhas.size()-1));
 		linhas.remove(0);
 		linhas.remove(linhas.size()-1);
 		
@@ -111,13 +111,13 @@ public class CreditoEmConta implements FebrabanLote<CreditoEmConta>{
 					FebrabanSegmento.TipoSegmento.getByValue(linha.substring(13,14));
 			switch (tipoSegmento) {
 			case A:
-				segmentoA = new SegmentoA().setFromLine(linha);
+				segmentoA = new SegmentoA().fromLinha(linha);
 				break;
 			case B:
-				segmentoB = new SegmentoB().setFromLine(linha);
+				segmentoB = new SegmentoB().fromLinha(linha);
 				break;
 			case Z:
-				segmentoZ = new SegmentoZ().setFromLine(linha);
+				segmentoZ = new SegmentoZ().fromLinha(linha);
 				break;
 			}
 		}

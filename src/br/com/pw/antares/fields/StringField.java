@@ -2,82 +2,118 @@ package br.com.pw.antares.fields;
 
 import br.com.pw.antares.interfaces.AntaresField;
 
-public class StringField implements AntaresField{
+public class StringField implements AntaresField<String> {
+	private String name;
 	private String value;
-	private String nome;
-	private boolean isObrigatorio;
-	private int start;
+	private int offset;
 	private int end;
-	
-	public StringField(String nome,Boolean isObrigatorio, int start, int end){
-		this.start = start;
-		this.end = end;
-		this.isObrigatorio = isObrigatorio;
-		this.nome = nome;
+	private boolean required;
+	private boolean emptyAllowed;
+
+	public StringField(String nome, Boolean isObrigatorio, int start, int end) {
+		this.setName(nome);
+		this.setRequired(isObrigatorio);
+		this.setOffset(start);
+		this.setEnd(end);
 	}
-	
-	public StringField(String nome,Boolean isObrigatorio, int start, int end, String value){
-		this.start = start;
-		this.end = end;
-		this.isObrigatorio = isObrigatorio;
-		this.nome = nome;
-		this.value = value;
+
+	public StringField(String nome, Boolean isObrigatorio, int start, int end, String value) {
+		this.setName(nome);
+		this.setRequired(isObrigatorio);
+		this.setOffset(start);
+		this.setEnd(end);
+		this.setValue(value);
 	}
-	
+
+	//	@Override
+	//	public int getLenght() {
+	//		return end - (offset - 1);
+	//	}
+
+	@Override
 	public String getValue() {
 		return value;
 	}
+
+	@Override
 	public void setValue(String value) {
 		this.value = value;
 	}
-	public int getSize() {
-		return end-(start-1);
+
+	@Override
+	public String getName() {
+		return name;
 	}
-	public int getStart() {
-		return start;
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
-	public void setStart(int start) {
-		this.start = start;
+
+	@Override
+	public boolean isRequired() {
+		return required;
 	}
+
+	@Override
+	public void setRequired(boolean obligatory) {
+		this.required = obligatory;
+	}
+
+	@Override
+	public int getOffset() {
+		return offset;
+	}
+
+	@Override
+	public void setOffset(int start) {
+		this.offset = start;
+	}
+
+	@Override
 	public int getEnd() {
 		return end;
 	}
+
+	@Override
 	public void setEnd(int end) {
 		this.end = end;
 	}
-	
-	public String getNome() {
-		return nome;
-	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public boolean isObrigatorio() {
-		return isObrigatorio;
-	}
-
-	public void setObrigatorio(boolean isObrigatorio) {
-		this.isObrigatorio = isObrigatorio;
+	@Override
+	public boolean isEmptyAllowed() {
+		return emptyAllowed;
 	}
 
 	@Override
-	public String getValueAsLine() throws Exception {
-		if(isObrigatorio && (value == null || value.length() == 0) )
-			throw new Exception(nome+" inválido: Valor obrigatório vazio");
-		if(value!= null && value.length() > getSize())
-			throw new Exception(nome+" inválido: Tamanho maximo escedido - Max: "+getSize()+" - Tamanho: "+value.length());
-		return String.format("%1$-"+getSize()+ "s", value == null ? "" : value.trim());
+	public void setEmptyAllowed(boolean emptyAllowed) {
+		this.emptyAllowed = emptyAllowed;
 	}
-	
+
 	@Override
-	public void setValueFromLine(String line) {
-		this.value = line.substring(start-1,end).trim();
+	public String toLine() throws Exception {
+		//Verifica por requerido
+		//TODO remover verificação por zeros apos a criação da verificação por allowEmpty
+		if (isRequired() && (getValue() == null || getValue().isEmpty())) {
+			throw new Exception("["+getName()+"] - Este campo é requerido.");
+		}
+		
+		//Verifica pelo tamanho do campo
+		if (getValue().length() > getLenght()){
+			throw new Exception("["+getName()+"] - Tamanho maximo escedido - Max: " + getLenght()+ " - Tamanho: " + getValue().length());
+		}
+
+		//Retorna o valor formatado
+		return String.format("%1$-" + getLenght() + "s", value == null ? "" : value.trim());
 	}
-	
+
 	@Override
-	public String toString(){
+	public void fromLine(String line) {
+		this.value = line.substring(offset - 1, end).trim();
+	}
+
+	@Override
+	public String toString() {
 		return String.valueOf(value);
 	}
 }

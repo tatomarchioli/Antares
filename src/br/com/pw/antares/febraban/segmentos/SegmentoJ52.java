@@ -6,12 +6,12 @@ import java.util.List;
 import br.com.pw.antares.febraban.interfaces.FebrabanSegmento;
 import br.com.pw.antares.fields.IntField;
 import br.com.pw.antares.fields.StringField;
-import br.com.santander.interfaces.AntaresField;
+import br.com.pw.antares.interfaces.AntaresField;
 
 public class SegmentoJ52 implements FebrabanSegmento<SegmentoJ52>{
-	public IntField CodigodoBanco = new IntField (" Código do Banco ", false, 1 , 3 , 033); 
+	public IntField CodigodoBanco = new IntField (" Código do Banco ", false, 1 , 3 , 033l); 
 	public IntField LotedeServico = new IntField (" Lote de Serviço ", false, 4 , 7 ); 
-	public IntField TipodeRegistro = new IntField (" Tipo de Registro ", false, 8 , 8 ,3 ); 
+	public IntField TipodeRegistro = new IntField (" Tipo de Registro ", false, 8 , 8 ,3l); 
 	public IntField NumeroSequencialdoRegistronoLote = new IntField (" Número Sequencial do Registro no Lote ", false, 9 , 13 ); 
 	public StringField CodigoSegmentodoRegistroDetalhe = new StringField (" Código Segmento do Registro Detalhe ", false, 14 , 14 , "J" ); 
 	public StringField Filler1 = new StringField (" Filler ", false, 15 , 15 ); 
@@ -28,7 +28,7 @@ public class SegmentoJ52 implements FebrabanSegmento<SegmentoJ52>{
 	public StringField NomedoSacador = new StringField (" Nome do Sacador ", false, 148 , 187 );
 	public StringField Filler2 = new StringField (" Filler ", false, 188 , 240 );
 
-	List<AntaresField> fields = new ArrayList<>();
+	List<AntaresField<?>> fields = new ArrayList<>();
 
 
 	public SegmentoJ52(){
@@ -53,19 +53,19 @@ public class SegmentoJ52 implements FebrabanSegmento<SegmentoJ52>{
 	}
 
 	@Override
-	public String getAsLine() throws Exception {
+	public String toLinha() throws Exception {
 		String linha = "";
-		for(AntaresField f : fields){
-			linha+=f.getValueAsLine();
+		for(AntaresField<?> f : fields){
+			linha+=f.toLine();
 		}
 		return linha;
 	}
 	
 	@Override
-	public SegmentoJ52 setFromLine(String line) throws Exception {
+	public SegmentoJ52 fromLinha(String line) throws Exception {
 		try{
-			for(AntaresField f : fields){
-				f.setValueFromLine(line);
+			for(AntaresField<?> f : fields){
+				f.fromLine(line);
 			}
 		}catch(Exception e){
 			throw new Exception("Lote: "+LotedeServico.getValue()+" - Header Lote - "+e.getMessage());

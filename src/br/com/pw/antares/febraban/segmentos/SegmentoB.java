@@ -7,13 +7,13 @@ import br.com.pw.antares.febraban.interfaces.FebrabanSegmento;
 import br.com.pw.antares.fields.DoubleField;
 import br.com.pw.antares.fields.IntField;
 import br.com.pw.antares.fields.StringField;
-import br.com.santander.fields.DateField;
-import br.com.santander.interfaces.AntaresField;
+import br.com.pw.antares.fields.DateField;
+import br.com.pw.antares.interfaces.AntaresField;
 
 public class SegmentoB implements FebrabanSegmento<SegmentoB>{
-	public IntField CodigodoBanco = new IntField (" Código do Banco ", true, 1 , 3 , 33); 
+	public IntField CodigodoBanco = new IntField (" Código do Banco ", true, 1 , 3 , 33l); 
 	public IntField LotedeServico = new IntField (" Lote de Serviço ", true, 4 , 7 );
-	public IntField TipodeRegistro = new IntField (" Tipo de Registro ", true, 8 , 8 ,3 );
+	public IntField TipodeRegistro = new IntField (" Tipo de Registro ", true, 8 , 8 ,3l );
 	public IntField NumeroSequencialdoRegistronoLote = new IntField (" Número Sequencial do Registro no Lote ", false, 9 , 13 );
 	public StringField CodigoSegmentodoRegistroDetalhe = new StringField (" Código Segmento do Registro Detalhe ", true, 14 , 14 , "B" ); 
 	public StringField Filler1 = new StringField (" Filler ", false, 15 , 17 ); 
@@ -40,7 +40,7 @@ public class SegmentoB implements FebrabanSegmento<SegmentoB>{
 	public StringField TEDparaInstituicaoFinanceira = new StringField (" TED para Instituição Financeira ", false, 232 , 232 ); 
 	public StringField IdentificacaodaIFnoSPB = new StringField (" Identificação da IF no SPB ", false, 233 , 240 );
 
-	List<AntaresField> fields = new ArrayList<>();
+	List<AntaresField<?>> fields = new ArrayList<>();
 	
 	public SegmentoB(){
 		fields.add(	CodigodoBanco	);	
@@ -73,11 +73,11 @@ public class SegmentoB implements FebrabanSegmento<SegmentoB>{
 		fields.add(	IdentificacaodaIFnoSPB	);	
 	}
 	@Override
-	public String getAsLine() throws Exception {
+	public String toLinha() throws Exception {
 		try{
 			String linha = "";
-			for(AntaresField f : fields){
-				linha+=f.getValueAsLine();
+			for(AntaresField<?> f : fields){
+				linha+=f.toLine();
 			}
 			return linha;
 		}catch(Exception e){
@@ -86,10 +86,10 @@ public class SegmentoB implements FebrabanSegmento<SegmentoB>{
 	}
 	
 	@Override
-	public SegmentoB setFromLine(String line) throws Exception {
+	public SegmentoB fromLinha(String line) throws Exception {
 		try{
-			for(AntaresField f : fields){
-				f.setValueFromLine(line);
+			for(AntaresField<?> f : fields){
+				f.fromLine(line);
 			}
 		}catch(Exception e){
 			throw new Exception("Lote: "+LotedeServico.getValue()+" - Header Lote - "+e.getMessage());

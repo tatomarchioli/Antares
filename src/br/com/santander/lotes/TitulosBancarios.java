@@ -11,7 +11,7 @@ import br.com.pw.antares.febraban.segmentos.SegmentoJ;
 import br.com.pw.antares.febraban.segmentos.SegmentoJ52;
 import br.com.pw.antares.febraban.segmentos.SegmentoZ;
 import br.com.pw.antares.febraban.segmentos.Trailer;
-import br.com.santander.interfaces.FebrabanLote;
+import br.com.pw.antares.interfaces.FebrabanLote;
 
 public class TitulosBancarios implements FebrabanLote<TitulosBancarios>{
 	private Header header;
@@ -97,12 +97,12 @@ public class TitulosBancarios implements FebrabanLote<TitulosBancarios>{
 	@Override
 	public List<String> getLinhas() throws Exception{
 		List<String> list = new ArrayList<>();
-		list.add(header.getAsLine());
-		if(segmentoJ != null)list.add(segmentoJ.getAsLine());
-		if(segmentoJ52 != null)list.add(segmentoJ52.getAsLine());
-		if(segmentoB != null)list.add(segmentoB.getAsLine());
+		list.add(header.toLinha());
+		if(segmentoJ != null)list.add(segmentoJ.toLinha());
+		if(segmentoJ52 != null)list.add(segmentoJ52.toLinha());
+		if(segmentoB != null)list.add(segmentoB.toLinha());
 		//		list.add(segmentoZ.getLinha());
-		list.add(trailer.getAsLine());
+		list.add(trailer.toLinha());
 		return list;
 	}
 	
@@ -110,8 +110,8 @@ public class TitulosBancarios implements FebrabanLote<TitulosBancarios>{
 	@Override
 	public TitulosBancarios setLinhas(List<String> linhas) throws Exception {
 		
-		header = new Header().setFromLine(linhas.get(0));
-		trailer = new Trailer().setFromLine(linhas.get(linhas.size()-1));
+		header = new Header().fromLinha(linhas.get(0));
+		trailer = new Trailer().fromLinha(linhas.get(linhas.size()-1));
 		linhas.remove(0);
 		linhas.remove(linhas.size()-1);
 		
@@ -120,16 +120,16 @@ public class TitulosBancarios implements FebrabanLote<TitulosBancarios>{
 					FebrabanSegmento.TipoSegmento.getByValue(linha.substring(13,14));
 			switch (tipoSegmento) {
 			case J:
-				segmentoJ = new SegmentoJ().setFromLine(linha);
+				segmentoJ = new SegmentoJ().fromLinha(linha);
 				break;
 			case J52:
-				segmentoJ52 = new SegmentoJ52().setFromLine(linha);
+				segmentoJ52 = new SegmentoJ52().fromLinha(linha);
 				break;
 			case B:
-				segmentoB = new SegmentoB().setFromLine(linha);
+				segmentoB = new SegmentoB().fromLinha(linha);
 				break;
 			case Z:
-				segmentoZ = new SegmentoZ().setFromLine(linha);
+				segmentoZ = new SegmentoZ().fromLinha(linha);
 				break;
 			}
 		}

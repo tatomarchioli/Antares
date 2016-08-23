@@ -6,12 +6,12 @@ import java.util.List;
 import br.com.pw.antares.febraban.interfaces.FebrabanSegmento;
 import br.com.pw.antares.fields.IntField;
 import br.com.pw.antares.fields.StringField;
-import br.com.santander.interfaces.AntaresField;
+import br.com.pw.antares.interfaces.AntaresField;
 
 public class SegmentoZ implements FebrabanSegmento<SegmentoZ>{
-	public IntField CodigodoBanco = new IntField (" Código do Banco ", false, 1 , 3 , 033); 
+	public IntField CodigodoBanco = new IntField (" Código do Banco ", false, 1 , 3 , 033l); 
 	public IntField LotedeServico = new IntField (" Lote de Serviço ", false, 4 , 7 );
-	public IntField TipodeRegistro = new IntField (" Tipo de Registro ", false, 8 , 8 ,3 );
+	public IntField TipodeRegistro = new IntField (" Tipo de Registro ", false, 8 , 8 ,3l );
 	public IntField NumeroSequencialdoRegistronoLote = new IntField (" Número Sequencial do Registro no Lote ", false, 9 , 13 ); 
 	public StringField CodigoSegmentonoRegistroDetalhe = new StringField (" Código Segmento no Registro Detalhe ", false, 14 , 14 , "Z" );
 	public StringField AutenticacaodoPagamento = new StringField (" Autenticação do Pagamento ", false, 15 , 78 ); 
@@ -19,7 +19,7 @@ public class SegmentoZ implements FebrabanSegmento<SegmentoZ>{
 	public StringField Filler = new StringField (" Filler ", false, 104 , 230 );
 	public StringField OcorrenciasparaoRetorno = new StringField (" Ocorrências para o Retorno ", false, 231 , 240 );
 
-	List<AntaresField> fields = new ArrayList<>();
+	List<AntaresField<?>> fields = new ArrayList<>();
 
 	public SegmentoZ(){
 		fields.add(	CodigodoBanco	);	
@@ -33,19 +33,19 @@ public class SegmentoZ implements FebrabanSegmento<SegmentoZ>{
 		fields.add(	OcorrenciasparaoRetorno	);	
 	}
 	@Override
-	public String getAsLine() throws Exception {
+	public String toLinha() throws Exception {
 		String linha = "";
-		for(AntaresField f : fields){
-			linha+=f.getValueAsLine();
+		for(AntaresField<?> f : fields){
+			linha+=f.toLine();
 		}
 		return linha;
 	}
 	
 	@Override
-	public SegmentoZ setFromLine(String line) throws Exception {
+	public SegmentoZ fromLinha(String line) throws Exception {
 		try{
-			for(AntaresField f : fields){
-				f.setValueFromLine(line);
+			for(AntaresField<?> f : fields){
+				f.fromLine(line);
 			}
 		}catch(Exception e){
 			throw new Exception("Lote: "+LotedeServico.getValue()+" - Header Lote - "+e.getMessage());

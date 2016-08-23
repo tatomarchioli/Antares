@@ -7,105 +7,153 @@ import org.joda.time.DateTime;
 import br.com.pw.antares.interfaces.AntaresField;
 import br.com.pw.antares.util.Tools;
 
-public class DateField implements AntaresField{
+public class DateField implements AntaresField<DateTime> {
+	private String name;
 	private DateTime value;
-	private String nome;
-	private boolean isObrigatorio;
-	private int start;
+	private int offset;
 	private int end;
 	private String format;
+	private boolean required;
+	private boolean emptyAllowed;
 
-	public DateField(String nome,Boolean isObrigatorio, int start, int end, String format){
-		this.nome = nome;
-		this.isObrigatorio = isObrigatorio;
-		this.start = start;
-		this.end = end;
-		this.format = format;
-	}
-	
-	public DateField(String nome,Boolean isObrigatorio, int start, int end, String format, DateTime value){
-		this.nome = nome;
-		this.isObrigatorio = isObrigatorio;
-		this.start = start;
-		this.end = end;
-		this.format = format;
-		this.value = value;
+	public DateField(String name, Boolean obligatory, int start, int end, String format) {
+		this.setName(name);
+		this.setRequired(obligatory);
+		this.setOffset(start);
+		this.setEnd(end);
+		this.setFormat(format);
 	}
 
+	public DateField(String name, Boolean obligatory, int start, int end, String format, DateTime value) {
+		this.setName(name);
+		this.setRequired(obligatory);
+		this.setOffset(start);
+		this.setEnd(end);
+		this.setFormat(format);
+		this.setValue(value);
+	}
+
+	//	@Override
+	//	public int getLenght() {
+	//		return end - (start - 1);
+	//	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
 	public DateTime getValue() {
 		return value;
 	}
+
+	@Override
 	public void setValue(DateTime value) {
 		this.value = value;
 	}
-	public int getSize() {
-		return end-(start-1);
-	}
-	public int getStart() {
-		return start;
-	}
-	public void setStart(int start) {
-		this.start = start;
-	}
-	public int getEnd() {
-		return end;
-	}
-	public void setEnd(int end) {
-		this.end = end;
-	}
-	public String getFormat() {
-		return format;
-	}
-	public void setFormat(String format) {
-		this.format = format;
-	}
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public boolean isObrigatorio() {
-		return isObrigatorio;
-	}
-	public void setObrigatorio(boolean isObrigatorio) {
-		this.isObrigatorio = isObrigatorio;
+
+	@Override
+	public int getOffset() {
+		return offset;
 	}
 
 	@Override
-	public String getValueAsLine() throws Exception {
-		try{
-			if(isObrigatorio && value == null){
-				throw new Exception("Valor obrigatório vazio");
-			}
-			String valor = value.toString(format);
-			return String.format("%1$"+getSize()+ "s", valor).replace(" ", "0");
-		}catch(Exception e){
-			if(isObrigatorio)
-				throw new Exception(nome+" inválido: "+e);
-			else 
-				return String.format("%1$"+getSize()+ "s", "").replace(" ", "0");
-		}
+	public void setOffset(int start) {
+		this.offset = start;
 	}
-	
+
 	@Override
-	public void setValueFromLine(String line) {
+	public int getEnd() {
+		return end;
+	}
+
+	@Override
+	public void setEnd(int end) {
+		this.end = end;
+	}
+
+	@Override
+	public void setRequired(boolean obligatory) {
+		this.required = obligatory;
+	}
+
+	@Override
+	public boolean isRequired() {
+		return required;
+	}
+
+	@Override
+	public boolean isEmptyAllowed() {
+		return emptyAllowed;
+	}
+
+	@Override
+	public void setEmptyAllowed(boolean emptyAllowed) {
+		this.emptyAllowed = emptyAllowed;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
+
+	@Override
+	public String toLine() throws Exception {
+
+		//Verifica se o campo é requerido
+		if (isRequired() && getValue() == null) {
+			throw new Exception("["+getName()+"] - Este campo é requerido.");
+		}
+
+		//Verifica por formato
+		String valor;
+		try{
+			valor = getValue() == null ? "" : getValue().toString(format);
+		}catch(Exception e){
+			throw new Exception("["+getName()+"] - Formato de Data/Hora inválido: "+getFormat());
+		}
+
+		//Verifica o tamanho do campo
+		if (valor.length() > getLenght()){
+			throw new Exception("["+getName()+"] - Tamanho maximo excedido - Max: " + getLenght() + " - Tamanho: " + valor.length());
+		}
+
+		//Verifica se o campo permite vazios
+		//TODO
+
+
+		//Retorna campo formatado.
+		return String.format("%1$" + getLenght() + "s", valor).replace(" ", "0");
+	}
+
+	@Override
+	public void fromLine(String line) {
 		try {
-			String string = line.substring(start-1,end).trim();
-			if (string.isEmpty())return;
-			this.value = Tools.stringToDate(string,format);
+			String string = line.substring(offset - 1, end).trim();
+			if (string.isEmpty())
+				return;
+			this.value = Tools.stringToDate(string, format);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
-	public String toString(){
-		try{
+	public String toString() {
+		try {
 			return value.toString("dd/MM/yyyy HH:mm:ss");
-		}catch(Exception e){
+		} catch (Exception e) {
 			return "NULL";
 		}
 	}
-
 }
