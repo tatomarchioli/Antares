@@ -4,100 +4,32 @@ import java.text.ParseException;
 
 import org.joda.time.DateTime;
 
-import br.com.pw.antares.interfaces.AntaresField;
+import br.com.pw.antares.baseclasses.AntaresField;
+import br.com.pw.antares.baseclasses.AntaresLine;
 import br.com.pw.antares.util.Tools;
 
-public class DateField implements AntaresField<DateTime> {
-	private String name;
-	private DateTime value;
-	private int offset;
-	private int end;
+public class DateField extends AntaresField<DateTime> {
+
 	private String format;
-	private boolean required;
-	private boolean emptyAllowed;
 
 	public DateField(String name, Boolean obligatory, int start, int end, String format) {
-		this.setName(name);
-		this.setRequired(obligatory);
-		this.setOffset(start);
-		this.setEnd(end);
-		this.setFormat(format);
+		this(name,obligatory, start, end, format, null, null);
 	}
 
 	public DateField(String name, Boolean obligatory, int start, int end, String format, DateTime value) {
-		this.setName(name);
-		this.setRequired(obligatory);
-		this.setOffset(start);
-		this.setEnd(end);
+		this(name,obligatory, start, end, format, value, null);
+	}
+
+	public DateField(String name, Boolean obligatory, int start, int end, String format, AntaresLine line) {
+		this(name,obligatory, start, end, format, null, line);
+	}
+	
+	public DateField(String name, Boolean obligatory, int start, int end, String format, DateTime value, AntaresLine line) {
+		super(name, obligatory, start, end, value, line);
 		this.setFormat(format);
-		this.setValue(value);
 	}
 
-	//	@Override
-	//	public int getLenght() {
-	//		return end - (start - 1);
-	//	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public DateTime getValue() {
-		return value;
-	}
-
-	@Override
-	public void setValue(DateTime value) {
-		this.value = value;
-	}
-
-	@Override
-	public int getOffset() {
-		return offset;
-	}
-
-	@Override
-	public void setOffset(int start) {
-		this.offset = start;
-	}
-
-	@Override
-	public int getEnd() {
-		return end;
-	}
-
-	@Override
-	public void setEnd(int end) {
-		this.end = end;
-	}
-
-	@Override
-	public void setRequired(boolean obligatory) {
-		this.required = obligatory;
-	}
-
-	@Override
-	public boolean isRequired() {
-		return required;
-	}
-
-	@Override
-	public boolean isEmptyAllowed() {
-		return emptyAllowed;
-	}
-
-	@Override
-	public void setEmptyAllowed(boolean emptyAllowed) {
-		this.emptyAllowed = emptyAllowed;
-	}
-
+	
 	public String getFormat() {
 		return format;
 	}
@@ -124,8 +56,8 @@ public class DateField implements AntaresField<DateTime> {
 		}
 
 		//Verifica o tamanho do campo
-		if (valor.length() > getLenght()){
-			throw new Exception("["+getName()+"] - Tamanho maximo excedido - Max: " + getLenght() + " - Tamanho: " + valor.length());
+		if (valor.length() > getLength()){
+			throw new Exception("["+getName()+"] - Tamanho maximo excedido - Max: " + getLength() + " - Tamanho: " + valor.length());
 		}
 
 		//Verifica se o campo permite vazios
@@ -133,16 +65,16 @@ public class DateField implements AntaresField<DateTime> {
 
 
 		//Retorna campo formatado.
-		return String.format("%1$" + getLenght() + "s", valor).replace(" ", "0");
+		return String.format("%1$" + getLength() + "s", valor).replace(" ", "0");
 	}
 
 	@Override
 	public void fromLine(String line) {
 		try {
-			String string = line.substring(offset - 1, end).trim();
+			String string = line.substring(getOffset() - 1, getEnd()).trim();
 			if (string.isEmpty())
 				return;
-			this.value = Tools.stringToDate(string, format);
+			setValue(Tools.stringToDate(string, format));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -151,7 +83,7 @@ public class DateField implements AntaresField<DateTime> {
 	@Override
 	public String toString() {
 		try {
-			return value.toString("dd/MM/yyyy HH:mm:ss");
+			return getValue().toString("dd/MM/yyyy HH:mm:ss");
 		} catch (Exception e) {
 			return "NULL";
 		}

@@ -2,67 +2,26 @@ package br.com.pw.antares.fields;
 
 import java.text.DecimalFormat;
 
-import br.com.pw.antares.interfaces.AntaresField;
+import br.com.pw.antares.baseclasses.AntaresField;
+import br.com.pw.antares.baseclasses.AntaresLine;
 
-public class DoubleField implements AntaresField<Double> {
-	private String name;
-	private Double value;
-	private int ofsset;
-	private int end;
+public class DoubleField extends AntaresField<Double> {
 	private int decimalCases;
-	private boolean required;
-	private boolean emptyAllowed;
 
 	public DoubleField(String name, Boolean obligatory, int start, int end, int decimalCases) {
-		this.setName(name);
-		this.setRequired(obligatory);
-		this.setOffset(start);
-		this.setEnd(end);
+		this(name, obligatory, start, end, decimalCases, null, null);
+	}
+
+	public DoubleField(String name, Boolean obligatory, int start, int end, int decimalCases, AntaresLine line) {
+		this(name, obligatory, start, end, decimalCases, null, line);
+	}
+	
+	public DoubleField(String name, Boolean obligatory, int start, int end, int decimalCases, Double value) {
+		this(name, obligatory, start, end, decimalCases, value, null);
+	}
+	public DoubleField(String name, Boolean obligatory, int start, int end,  int decimalCases, Double value, AntaresLine line) {
+		super(name, obligatory, start, end, value, line);
 		this.setDecimalCases(decimalCases);
-	}
-
-	public DoubleField(String name, Boolean obligatory, int start, int end, int decimalCases, double value) {
-		this.setName(name);
-		this.setRequired(obligatory);
-		this.setOffset(start);
-		this.setEnd(end);
-		this.setDecimalCases(decimalCases);
-		this.setValue(value);
-	}
-
-	//	@Override
-	//	public int getLenght() {
-	//		return end - (ofsset - 1);
-	//	}
-
-	@Override
-	public Double getValue() {
-		return value;
-	}
-
-	@Override
-	public void setValue(Double value) {
-		this.value = value;
-	}
-
-	@Override
-	public int getOffset() {
-		return ofsset;
-	}
-
-	@Override
-	public void setOffset(int start) {
-		this.ofsset = start;
-	}
-
-	@Override
-	public int getEnd() {
-		return end;
-	}
-
-	@Override
-	public void setEnd(int end) {
-		this.end = end;
 	}
 
 	public int getDecimalCases() {
@@ -71,36 +30,6 @@ public class DoubleField implements AntaresField<Double> {
 
 	public void setDecimalCases(int decimalCases) {
 		this.decimalCases = decimalCases;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public boolean isRequired() {
-		return required;
-	}
-
-	@Override
-	public void setRequired(boolean obligatory) {
-		this.required = obligatory;
-	}
-
-	@Override
-	public boolean isEmptyAllowed() {
-		return emptyAllowed;
-	}
-
-	@Override
-	public void setEmptyAllowed(boolean emptyAllowed) {
-		this.emptyAllowed = emptyAllowed;
 	}
 
 	@Override
@@ -118,22 +47,22 @@ public class DoubleField implements AntaresField<Double> {
 		String valor = df.format(getValue() == null ? 0.00 : getValue()).replaceAll("\\D", "");
 
 		//Verifica pelo tamanho do campo
-		if (valor.length() > getLenght())
-			throw new Exception("["+getName()+"] - Tamanho maximo escedido - Max: " + getLenght() + " - Tamanho: " + valor.length());
+		if (valor.length() > getLength())
+			throw new Exception("["+getName()+"] - Tamanho maximo escedido - Max: " + getLength() + " - Tamanho: " + valor.length());
 
 		//Retorna o valor formatado
-		return String.format("%1$" + getLenght() + "s", valor).replace(" ", "0");
+		return String.format("%1$" + getLength() + "s", valor).replace(" ", "0");
 	}
 
 	@Override
 	public void fromLine(String line) {
-		String string = line.substring(ofsset - 1, end).trim();
+		String string = line.substring(getOffset() - 1, getEnd()).trim();
 		if (string.isEmpty())
 			return;
 
 		StringBuilder b = new StringBuilder(string);
-		b.insert(getLenght() - getDecimalCases(), '.');
-		this.value = Double.parseDouble(b.toString());
+		b.insert(getLength() - getDecimalCases(), '.');
+		setValue(Double.parseDouble(b.toString()));
 	}
 
 	@Override
@@ -141,7 +70,7 @@ public class DoubleField implements AntaresField<Double> {
 		DecimalFormat df = new DecimalFormat();
 		df.setMaximumFractionDigits(getDecimalCases());
 		df.setMinimumFractionDigits(getDecimalCases());
-		return df.format(value);
+		return df.format(getValue());
 	}
 
 }

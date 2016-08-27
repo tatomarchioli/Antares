@@ -1,66 +1,25 @@
 package br.com.pw.antares.febraban.segmentos;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import br.com.pw.antares.febraban.interfaces.FebrabanSegmento;
+import br.com.pw.antares.baseclasses.AntaresLine;
+import br.com.pw.antares.baseclasses.AntaresLineBatch;
 import br.com.pw.antares.fields.IntField;
 import br.com.pw.antares.fields.StringField;
-import br.com.pw.antares.interfaces.AntaresField;
 
-public class SegmentoZ implements FebrabanSegmento<SegmentoZ>{
-	public IntField CodigodoBanco = new IntField (" Código do Banco ", false, 1 , 3 , 033l); 
-	public IntField LotedeServico = new IntField (" Lote de Serviço ", false, 4 , 7 );
-	public IntField TipodeRegistro = new IntField (" Tipo de Registro ", false, 8 , 8 ,3l );
-	public IntField NumeroSequencialdoRegistronoLote = new IntField (" Número Sequencial do Registro no Lote ", false, 9 , 13 ); 
-	public StringField CodigoSegmentonoRegistroDetalhe = new StringField (" Código Segmento no Registro Detalhe ", false, 14 , 14 , "Z" );
-	public StringField AutenticacaodoPagamento = new StringField (" Autenticação do Pagamento ", false, 15 , 78 ); 
-	public StringField ProtocolodoPagamento = new StringField (" Protocolo do Pagamento ", false, 79 , 103 ); 
-	public StringField Filler = new StringField (" Filler ", false, 104 , 230 );
-	public StringField OcorrenciasparaoRetorno = new StringField (" Ocorrências para o Retorno ", false, 231 , 240 );
-
-	List<AntaresField<?>> fields = new ArrayList<>();
-
+public class SegmentoZ extends AntaresLine{
 	public SegmentoZ(){
-		fields.add(	CodigodoBanco	);	
-		fields.add(	LotedeServico	);	
-		fields.add(	TipodeRegistro	);	
-		fields.add(	NumeroSequencialdoRegistronoLote	);	
-		fields.add(	CodigoSegmentonoRegistroDetalhe	);	
-		fields.add(	AutenticacaodoPagamento	);	
-		fields.add(	ProtocolodoPagamento	);	
-		fields.add(	Filler	);	
-		fields.add(	OcorrenciasparaoRetorno	);	
-	}
-	@Override
-	public String toLinha() throws Exception {
-		String linha = "";
-		for(AntaresField<?> f : fields){
-			linha+=f.toLine();
-		}
-		return linha;
+		this(true, null);
 	}
 	
-	@Override
-	public SegmentoZ fromLinha(String line) throws Exception {
-		try{
-			for(AntaresField<?> f : fields){
-				f.fromLine(line);
-			}
-		}catch(Exception e){
-			throw new Exception("Lote: "+LotedeServico.getValue()+" - Header Lote - "+e.getMessage());
-		}
-		return this;
+	public SegmentoZ(boolean include, AntaresLineBatch batch) {
+		super(240, 3, "Segmento Z", include, batch);
 	}
-	
-	@Override
-	public String toString() {
-		return "SegmentoZ [CodigodoBanco=" + CodigodoBanco + ", LotedeServico=" + LotedeServico + ", TipodeRegistro="
-				+ TipodeRegistro + ", NumeroSequencialdoRegistronoLote=" + NumeroSequencialdoRegistronoLote
-				+ ", CodigoSegmentonoRegistroDetalhe=" + CodigoSegmentonoRegistroDetalhe + ", AutenticacaodoPagamento="
-				+ AutenticacaodoPagamento + ", ProtocolodoPagamento=" + ProtocolodoPagamento + ", Filler=" + Filler
-				+ ", OcorrênciasparaoRetorno=" + OcorrenciasparaoRetorno + "]";
-	}
-	
-	
+	public IntField CodigodoBanco = new IntField (" Código do Banco ", false, 1 , 3 , 033l, this); 
+	public IntField LotedeServico = new IntField (" Lote de Serviço ", false, 4 , 7 , this);
+	public IntField TipodeRegistro = new IntField (" Tipo de Registro ", false, 8 , 8 ,3l , this);
+	public IntField NumeroSequencialdoRegistronoLote = new IntField (" Número Sequencial do Registro no Lote ", false, 9 , 13 , this); 
+	public StringField CodigoSegmentonoRegistroDetalhe = new StringField (" Código Segmento no Registro Detalhe ", false, 14 , 14 , "Z" , this);
+	public StringField AutenticacaodoPagamento = new StringField (" Autenticação do Pagamento ", false, 15 , 78 , this); 
+	public StringField ProtocolodoPagamento = new StringField (" Protocolo do Pagamento ", false, 79 , 103 , this); 
+	public StringField Filler = new StringField (" Filler ", false, 104 , 230 , this);
+	public StringField OcorrenciasparaoRetorno = new StringField (" Ocorrências para o Retorno ", false, 231 , 240 , this);
 }

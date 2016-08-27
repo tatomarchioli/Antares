@@ -12,11 +12,14 @@ import java.util.Scanner;
 
 import org.joda.time.DateTime;
 
+import br.com.pw.antares.baseclasses.FebrabanLote;
+import br.com.pw.antares.febraban.enums.TipoLote;
+import br.com.pw.antares.febraban.enums.TipoRegistro;
 import br.com.pw.antares.febraban.interfaces.FebrabanSegmento;
+import br.com.pw.antares.febraban.lotes.TitulosBancarios;
 import br.com.pw.antares.febraban.segmentos.HeaderArquivo;
 import br.com.pw.antares.febraban.segmentos.TrailerArquivo;
 import br.com.pw.antares.util.Tools;
-import br.com.pw.antares.interfaces.FebrabanLote;
 
 public class Arquivo{
 	private int id;
@@ -95,8 +98,7 @@ public class Arquivo{
 
 		while(scan.hasNext()){
 			String line = scan.nextLine();
-			FebrabanSegmento.TipoRegistro tipoLinha = 
-					FebrabanSegmento.TipoRegistro.getByValue(Integer.parseInt(line.substring(7,8)));
+			TipoRegistro tipoLinha = TipoRegistro.getByValue(Integer.parseInt(line.substring(7,8)));
 
 
 			switch (tipoLinha) {
@@ -111,7 +113,7 @@ public class Arquivo{
 			case HEADER:{
 				holder = new ArrayList<>();
 				holder.add(line);
-				tipoHolder = FebrabanLote.TipoLote.getByValue(Integer.parseInt(line.substring(9, 11)));
+				tipoHolder = TipoLote.getByValue(Integer.parseInt(line.substring(9, 11)));
 				break;
 			}
 			case SEGMENTO:{

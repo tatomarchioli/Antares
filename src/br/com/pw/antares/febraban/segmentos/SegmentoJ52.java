@@ -1,75 +1,36 @@
 package br.com.pw.antares.febraban.segmentos;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import br.com.pw.antares.febraban.interfaces.FebrabanSegmento;
+import br.com.pw.antares.baseclasses.AntaresLine;
+import br.com.pw.antares.baseclasses.AntaresLineBatch;
 import br.com.pw.antares.fields.IntField;
 import br.com.pw.antares.fields.StringField;
-import br.com.pw.antares.interfaces.AntaresField;
 
-public class SegmentoJ52 implements FebrabanSegmento<SegmentoJ52>{
-	public IntField CodigodoBanco = new IntField (" Código do Banco ", false, 1 , 3 , 033l); 
-	public IntField LotedeServico = new IntField (" Lote de Serviço ", false, 4 , 7 ); 
-	public IntField TipodeRegistro = new IntField (" Tipo de Registro ", false, 8 , 8 ,3l); 
-	public IntField NumeroSequencialdoRegistronoLote = new IntField (" Número Sequencial do Registro no Lote ", false, 9 , 13 ); 
-	public StringField CodigoSegmentodoRegistroDetalhe = new StringField (" Código Segmento do Registro Detalhe ", false, 14 , 14 , "J" ); 
-	public StringField Filler1 = new StringField (" Filler ", false, 15 , 15 ); 
-	public IntField CodigodeMovimentoRemessa = new IntField (" Código de Movimento Remessa ", false, 16 , 17 ); 
-	public IntField IdentificacaoRegistroOpcional = new IntField (" Identificação Registro Opcional ", false, 18 , 19 ); 
-	public IntField TipodeInscricaoSacado = new IntField (" Tipo de Inscrição ", false, 20 , 20 );
-	public IntField CPFNNPJdoSacado = new IntField (" CPF/NNPJ do Sacado ", false, 21 , 35 ); 
-	public StringField NomedoSacado = new StringField (" Nome do Sacado ", false, 36 , 75 ); 
-	public IntField TipodeInscricaoCedente = new IntField (" Tipo de Inscrição ", false, 76 , 76 );
-	public IntField CPFCNPJdoCedente = new IntField (" CPF/CNPJ do Cedente ", false, 77 , 91 ); 
-	public StringField NomedoCedente = new StringField (" Nome do Cedente ", false, 92 , 131 ); 
-	public IntField TipodeInscricaoSacador = new IntField (" Tipo de Inscrição ", false, 132 , 132 ); 
-	public IntField CPFNNPJdoSacador = new IntField (" CPF/NNPJ do Sacador ", false, 133 , 147 ); 
-	public StringField NomedoSacador = new StringField (" Nome do Sacador ", false, 148 , 187 );
-	public StringField Filler2 = new StringField (" Filler ", false, 188 , 240 );
-
-	List<AntaresField<?>> fields = new ArrayList<>();
-
-
+public class SegmentoJ52 extends AntaresLine{
+	
 	public SegmentoJ52(){
-		fields.add(	CodigodoBanco	);	
-		fields.add(	LotedeServico	);	
-		fields.add(	TipodeRegistro	);	
-		fields.add(	NumeroSequencialdoRegistronoLote	);	
-		fields.add(	CodigoSegmentodoRegistroDetalhe	);	
-		fields.add(	Filler1	);	
-		fields.add(	CodigodeMovimentoRemessa	);	
-		fields.add(	IdentificacaoRegistroOpcional	);	
-		fields.add(	TipodeInscricaoSacado	);	
-		fields.add(	CPFNNPJdoSacado	);	
-		fields.add(	NomedoSacado	);	
-		fields.add(	TipodeInscricaoCedente	);	
-		fields.add(	CPFCNPJdoCedente	);	
-		fields.add(	NomedoCedente	);	
-		fields.add(	TipodeInscricaoSacador	);	
-		fields.add(	CPFNNPJdoSacador	);	
-		fields.add(	NomedoSacador	);	
-		fields.add(	Filler2	);	
-	}
-
-	@Override
-	public String toLinha() throws Exception {
-		String linha = "";
-		for(AntaresField<?> f : fields){
-			linha+=f.toLine();
-		}
-		return linha;
+		this(true, null);
 	}
 	
-	@Override
-	public SegmentoJ52 fromLinha(String line) throws Exception {
-		try{
-			for(AntaresField<?> f : fields){
-				f.fromLine(line);
-			}
-		}catch(Exception e){
-			throw new Exception("Lote: "+LotedeServico.getValue()+" - Header Lote - "+e.getMessage());
-		}
-		return this;
+	public SegmentoJ52(boolean include, AntaresLineBatch batch) {
+		super(240, 3, "Segmento J52", include, batch);
 	}
+	
+	public IntField CodigodoBanco = new IntField (" Código do Banco ", false, 1 , 3 , 033l, this); 
+	public IntField LotedeServico = new IntField (" Lote de Serviço ", false, 4 , 7 , this); 
+	public IntField TipodeRegistro = new IntField (" Tipo de Registro ", false, 8 , 8 ,3l, this); 
+	public IntField NumeroSequencialdoRegistronoLote = new IntField (" Número Sequencial do Registro no Lote ", false, 9 , 13 , this); 
+	public StringField CodigoSegmentodoRegistroDetalhe = new StringField (" Código Segmento do Registro Detalhe ", false, 14 , 14 , "J" , this); 
+	public StringField Filler1 = new StringField (" Filler ", false, 15 , 15 , this); 
+	public IntField CodigodeMovimentoRemessa = new IntField (" Código de Movimento Remessa ", false, 16 , 17 , this); 
+	public IntField IdentificacaoRegistroOpcional = new IntField (" Identificação Registro Opcional ", false, 18 , 19 , this); 
+	public IntField TipodeInscricaoSacado = new IntField (" Tipo de Inscrição ", false, 20 , 20 , this);
+	public IntField CPFNNPJdoSacado = new IntField (" CPF/NNPJ do Sacado ", false, 21 , 35 , this); 
+	public StringField NomedoSacado = new StringField (" Nome do Sacado ", false, 36 , 75 , this); 
+	public IntField TipodeInscricaoCedente = new IntField (" Tipo de Inscrição ", false, 76 , 76 , this);
+	public IntField CPFCNPJdoCedente = new IntField (" CPF/CNPJ do Cedente ", false, 77 , 91 , this); 
+	public StringField NomedoCedente = new StringField (" Nome do Cedente ", false, 92 , 131 , this); 
+	public IntField TipodeInscricaoSacador = new IntField (" Tipo de Inscrição ", false, 132 , 132 , this); 
+	public IntField CPFNNPJdoSacador = new IntField (" CPF/NNPJ do Sacador ", false, 133 , 147 , this); 
+	public StringField NomedoSacador = new StringField (" Nome do Sacador ", false, 148 , 187 , this);
+	public StringField Filler2 = new StringField (" Filler ", false, 188 , 240 , this);
 }

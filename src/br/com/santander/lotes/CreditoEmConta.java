@@ -3,13 +3,13 @@ package br.com.santander.lotes;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.pw.antares.baseclasses.FebrabanLote;
 import br.com.pw.antares.febraban.interfaces.FebrabanSegmento;
 import br.com.pw.antares.febraban.segmentos.Header;
 import br.com.pw.antares.febraban.segmentos.SegmentoA;
 import br.com.pw.antares.febraban.segmentos.SegmentoB;
 import br.com.pw.antares.febraban.segmentos.SegmentoZ;
 import br.com.pw.antares.febraban.segmentos.Trailer;
-import br.com.pw.antares.interfaces.FebrabanLote;
 
 public class CreditoEmConta implements FebrabanLote<CreditoEmConta>{
 	private Header header;
