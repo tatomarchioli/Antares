@@ -5,18 +5,17 @@ import java.util.List;
 
 public abstract class AntaresLine {
 	private final List<AntaresField<?>> fields = new ArrayList<>();
-	private int maxLength;
+	private int length;
 	private int lineType;
 	private String lineTag;
 	private int lineSequence;
 	private boolean include;
 
 	protected AntaresLine(int maxLength, int lineType, String lineTag, boolean include, AntaresLineBatch batch) {
-		setMaxLength(maxLength);
+		setLength(maxLength);
 		setLineType(lineType);
 		setLineTag(lineTag);
 		setupInBatch(batch);
-
 	}
 
 	/**
@@ -104,15 +103,15 @@ public abstract class AntaresLine {
 	/**
 	 * Retorna a quantidade máxima de caracteres que permitida por esta linha
 	 */
-	public int getMaxLength() {
-		return maxLength;
+	public int getLength() {
+		return length;
 	}
 
 	/**
 	 * Seta a quantidade máxima de caracteres que permitida por esta linha
 	 */
-	public void setMaxLength(int maxLength) {
-		this.maxLength = maxLength;
+	public void setLength(int length) {
+		this.length = length;
 	}
 
 	/**
@@ -128,9 +127,9 @@ public abstract class AntaresLine {
 		} catch (Exception e) {
 			throw new Exception("[" + getLineTag() + "] -> " + e.getMessage());
 		}
-		if (val.length() > getMaxLength()) {
+		if (val.length() > getLength()) {
 			throw new Exception(
-					"Tamanho máximo da linha excedido. Max: " + getMaxLength() + ", Length: " + val.length());
+					"Tamanho máximo da linha excedido. Max: " + getLength() + ", Length: " + val.length());
 		}
 		return val;
 	}
@@ -140,6 +139,8 @@ public abstract class AntaresLine {
 	 * arquivo.
 	 */
 	public void fromLinha(String line) throws Exception {
+		if(line.length() != getLength())
+			throw new Exception("[" + getLineTag() + "] -> Os tamanhos não conferem. Informado: "+getLength()+", Recebido: "+line.length());
 		try {
 			for (AntaresField<?> field : getFields()) {
 				field.fromLine(line);
@@ -151,11 +152,11 @@ public abstract class AntaresLine {
 
 	@Override
 	public String toString() {
-		String val = getLineTag() + " | LineType = " + getLineType() + " | MaxLength = " + getMaxLength()
+		String val = getLineTag() + " | LineType = " + getLineType() + " | MaxLength = " + getLength()
 				+ " | Fields[";
 		for (AntaresField<?> field : getFields()) {
-			val += field.getName() + " = " + field.toString();
-			val += (getFields().indexOf(field) == getFields().size() - 1 ? "]" : ",");
+			val += field.getName() + " = '" + field.toString()+"'";
+			val += (getFields().indexOf(field) == getFields().size() - 1 ? "]" : ", ");
 		}
 		return val;
 	}

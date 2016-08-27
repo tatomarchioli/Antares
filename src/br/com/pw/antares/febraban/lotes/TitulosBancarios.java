@@ -15,7 +15,7 @@ import br.com.pw.antares.febraban.segmentos.Trailer;
 public class TitulosBancarios extends AntaresLineBatch{
 
 	protected TitulosBancarios(boolean include, int sequence) {
-		super(1, "Titulos Bancários",sequence, include);
+		super(1, "Titulos Bancários", sequence, include);
 	}
 
 	private Header header = new Header(true, this);
@@ -24,65 +24,6 @@ public class TitulosBancarios extends AntaresLineBatch{
 	private SegmentoB segmentoB = new SegmentoB(true, this);
 	private SegmentoZ segmentoZ = new SegmentoZ(false, this);
 	private Trailer trailer = new Trailer(true, this);
-
-	//	public static TitulosBancarios criarLote(Boleto boleto, int sequencia) throws Exception{
-	//		TitulosBancarios r = new TitulosBancarios();
-	//		r.sequencia = sequencia;
-	//
-	//		Header h = new Header();
-	//		h.LotedeServico.setValue((long)sequencia);
-	//		h.TipodaOperacao.setValue("C");
-	//		h.TipodeServico.setValue((long)20);
-	//		h.FormadeLancamento.setValue(boleto.getBanco().getCodigo().equals("033") ? 30 : 31);
-	//		h.NumerodaVersaodoLote.setValue((long)31);
-	//		h.NomedaEmpresa.setValue("Banco Digital Maré");
-	//		r.setHeader(h);
-	//		
-	//		r.setSegmentoJ(boleto);
-	//		
-	//		r.fecharLote();
-	//		
-	//
-	//		return r;
-	//	}
-	//	
-	//
-	//	private void setSegmentoJ(Boleto boleto){
-	//		SegmentoJ a = new SegmentoJ();
-	//		a.LotedeServico.setValue(sequencia);
-	//		a.TipodeMovimento.setValue(0);
-	//		a.CodigodeInstrucaoparaMovimento.setValue(0);
-	//		a.CodigodeBarras.setValue(boleto.getCodigoDeBarras());
-	//		a.NomedoCedente.setValue("Não identificado");//TODO arrumar nome cedente
-	//		a.DatadoVencimento.setValue(boleto.getVencimento());
-	//		a.ValorNominaldoTitulo.setValue(boleto.getValor());
-	//		a.DatadoPagamento.setValue(boleto.getPagamento());
-	//		a.ValordoPagamento.setValue(boleto.getValorPago());
-	//		a.NumerodoDocumentoCliente.setValue("1");//TODO arrumar este campo
-	//		a.NumerodoDocumentoBanco.setValue(boleto.getTipo() == Boleto.Tipo.COMUM ? 
-	//				boleto.getNossoNumero() : boleto.getIdentProduto());
-	//		a.OcorrenciasparaoRetorno.setValue("BRANCOS");
-	//		a.DatadoPagamento.setValue(boleto.getPagamento());
-	//		
-	//		setSegmentoJ(a);
-	//	}
-	//	
-	//
-	//
-	//	private void fecharLote() throws Exception{
-	//
-	//		Trailer t = new Trailer();
-	//		t.LotedeServico.setValue(sequencia);
-	//		t.QuantidadedeRegistrosdoLote.setValue(contadorRegistros());
-	//		try{
-	//			t.SomatoriadosValores.setValue(getSegmentoJ().ValordoPagamento.getValue());
-	//		}catch(Exception e){
-	//			e.printStackTrace();
-	//			throw new Exception("Erro ao fechar lote: Segmento J inválido");
-	//		}
-	//		setTrailer(t);
-	//
-	//	}
 
 	@Override
 	public void fromLines(List<String> linhas) throws Exception {
