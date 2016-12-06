@@ -103,11 +103,11 @@ public class Arquivo{
 
 			switch (tipoLinha) {
 			case HEADER_ARQUIVO: {
-				arq.setHeader(new HeaderArquivo().fromLinha(line));
+				arq.setHeader(new HeaderArquivo().fromLine(line));
 				break;
 			}
 			case TRAILER_ARQUIVO: {
-				arq.setTrailer(new TrailerArquivo().fromLinha(line));
+				arq.setTrailer(new TrailerArquivo().fromLine(line));
 				break;
 			}
 			case HEADER:{

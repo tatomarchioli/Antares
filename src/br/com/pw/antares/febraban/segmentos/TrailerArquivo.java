@@ -22,4 +22,10 @@ public	class TrailerArquivo extends AntaresLine{
 	public IntField Quantidadedelotesdoarquivo = new IntField ("Quantidade de lotes do arquivo", true, 18 , 23 , this); 
 	public IntField Quantidadederegistrosnoarquivo = new IntField ("Quantidade de registros no arquivo", true, 24 , 29 , this); 
 	public StringField Filler2 = new StringField ("Filler", false, 30 , 240 , this);
+	
+	@Override
+	public boolean canUnmarshal(String line) {
+		
+		return false;
+	}
 }

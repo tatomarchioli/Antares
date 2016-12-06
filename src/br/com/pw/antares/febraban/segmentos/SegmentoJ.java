@@ -38,4 +38,10 @@ public class SegmentoJ extends AntaresLine{
 	public StringField Filler = new StringField (" Filler ", false, 225 , 230 , this); 
 	public StringField OcorrenciasparaoRetorno = new StringField (" Ocorrências para o Retorno ", true, 231 , 240 , this);
 	
+	@Override
+	public boolean canUnmarshal(String line) {
+		
+		return false;
+	}
+	
 }

@@ -48,7 +48,7 @@ public abstract class AntaresLine {
 	 */
 	public void setLineTag(String lineTag) {
 		if (lineTag == null) {
-			throw new NullPointerException("Line Tag nula");
+			throw new NullPointerException("Line Tag is null");
 		}
 		this.lineTag = lineTag;
 	}
@@ -95,7 +95,7 @@ public abstract class AntaresLine {
 	 */
 	public final void addField(AntaresField<?> field) {
 		if (field == null) {
-			throw new NullPointerException("Field nulo");
+			throw new NullPointerException("Field is null");
 		}
 		this.fields.add(field);
 	}
@@ -138,7 +138,7 @@ public abstract class AntaresLine {
 	 * Seta todos os valores do segmento a partir de uma string vinda do
 	 * arquivo.
 	 */
-	public void fromLinha(String line) throws Exception {
+	public void fromLine(String line) throws Exception {
 		if(line.length() != getLength())
 			throw new Exception("[" + getLineTag() + "] -> Os tamanhos não conferem. Informado: "+getLength()+", Recebido: "+line.length());
 		try {
@@ -166,5 +166,9 @@ public abstract class AntaresLine {
 			return;
 		lineBatch.addLine(this);
 	}
+	
+	/**
+	 * Verifica se a string informada pode ser convertida para a classe desejada*/
+	public abstract boolean canUnmarshal(String line);
 
 }

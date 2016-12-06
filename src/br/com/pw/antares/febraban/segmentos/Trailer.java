@@ -24,4 +24,10 @@ public class Trailer extends AntaresLine{
 	public IntField NumeroAvisodeDebito = new IntField (" Número Aviso de Débito ", false, 60 , 65 , this); 
 	public StringField Filler2 = new StringField (" Filler ", false, 66 , 230 , this); 
 	public StringField OcorrenciasparaoRetorno = new StringField (" Ocorrências para o Retorno ", false, 231 , 240 , this);
+	
+	@Override
+	public boolean canUnmarshal(String line) {
+		
+		return false;
+	}
 }

@@ -45,4 +45,10 @@ public class SegmentoB extends AntaresLine{
 	public StringField Filler3 = new StringField (" Filler ", false, 231 , 231 , this); 
 	public StringField TEDparaInstituicaoFinanceira = new StringField (" TED para Instituição Financeira ", false, 232 , 232 , this); 
 	public StringField IdentificacaodaIFnoSPB = new StringField (" Identificação da IF no SPB ", false, 233 , 240 , this);
+	
+	@Override
+	public boolean canUnmarshal(String line) {
+		
+		return false;
+	}
 }

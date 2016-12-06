@@ -2,6 +2,7 @@ package br.com.pw.antares.febraban.segmentos;
 
 import br.com.pw.antares.baseclasses.AntaresLine;
 import br.com.pw.antares.baseclasses.AntaresLineBatch;
+import br.com.pw.antares.febraban.enums.TipoRegistro;
 import br.com.pw.antares.fields.IntField;
 import br.com.pw.antares.fields.StringField;
 
@@ -42,5 +43,16 @@ public class Header extends AntaresLine{
 	public StringField UF = new StringField ("UF", false, 221 , 222 , this); 
 	public StringField Filler2 = new StringField ("Filler", false, 223 , 230 , this); 
 	public StringField OcorrenciasparaoRetorno = new StringField ("Ocorrências para o Retorno", false, 231 , 240 , this);
+	
+	
+	@Override
+	public boolean canUnmarshal(String line) {
+		try {
+			TipoRegistro tipoLinha = TipoRegistro.getByValue(Integer.parseInt(line.substring(7,8)));
+			return tipoLinha == TipoRegistro.HEADER;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 	
 }

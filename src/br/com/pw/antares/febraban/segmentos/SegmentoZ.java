@@ -22,4 +22,10 @@ public class SegmentoZ extends AntaresLine{
 	public StringField ProtocolodoPagamento = new StringField (" Protocolo do Pagamento ", false, 79 , 103 , this); 
 	public StringField Filler = new StringField (" Filler ", false, 104 , 230 , this);
 	public StringField OcorrenciasparaoRetorno = new StringField (" Ocorrências para o Retorno ", false, 231 , 240 , this);
+	
+	@Override
+	public boolean canUnmarshal(String line) {
+		
+		return false;
+	}
 }

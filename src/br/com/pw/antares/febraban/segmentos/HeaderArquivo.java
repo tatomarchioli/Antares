@@ -40,4 +40,10 @@ public class HeaderArquivo extends AntaresLine{
 	public StringField UsoReservadodaEmpresa = new StringField (" Uso Reservado da Empresa ", false, 192 , 211 );
 	public StringField Filler3 = new StringField (" Filler ", false, 212 , 230 , this);
 	public StringField OcorrenciasparaoRetorno = new StringField (" Ocorrências para o Retorno ", false, 231 , 240 );
+	
+	@Override
+	public boolean canUnmarshal(String line) {
+		
+		return false;
+	}
 }

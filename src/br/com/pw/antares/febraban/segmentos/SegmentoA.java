@@ -46,4 +46,10 @@ public class SegmentoA extends AntaresLine{
 	public StringField Filler = new StringField (" Filler ", false, 227 , 229 , this);
 	public StringField EmissaodeAvisoaoFavorecido = new StringField (" Emissão de Aviso ao Favorecido ", false, 230 , 230 , this); 
 	public StringField OcorrenciasparaoRetorno = new StringField (" Ocorrências para o Retorno ", false, 231 , 240 , this);
+	
+	@Override
+	public boolean canUnmarshal(String line) {
+		
+		return false;
+	}
 }

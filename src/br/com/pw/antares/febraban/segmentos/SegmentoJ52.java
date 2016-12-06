@@ -33,4 +33,10 @@ public class SegmentoJ52 extends AntaresLine{
 	public IntField CPFNNPJdoSacador = new IntField (" CPF/NNPJ do Sacador ", false, 133 , 147 , this); 
 	public StringField NomedoSacador = new StringField (" Nome do Sacador ", false, 148 , 187 , this);
 	public StringField Filler2 = new StringField (" Filler ", false, 188 , 240 , this);
+	
+	@Override
+	public boolean canUnmarshal(String line) {
+		
+		return false;
+	}
 }

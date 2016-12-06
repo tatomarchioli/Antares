@@ -55,7 +55,7 @@ public abstract class AntaresLineBatch {
 
 	public void addLine(AntaresLine line) {
 		if (line == null) {
-			throw new NullPointerException("Line nula");
+			throw new NullPointerException("Line is null");
 		}
 		this.lines.add(line);
 	}
@@ -72,7 +72,15 @@ public abstract class AntaresLineBatch {
 		return list;
 	}
 
-	public abstract void fromLines(List<String> lines) throws Exception;
+	public void fromLines(List<String> lines) throws Exception{
+		for(String line : lines){
+		for(AntaresLine l : getLines()){
+			if(l.canUnmarshal(line))
+				l.fromLine(line);
+		}
+		}
+		
+	}
 
 	public int getLineCount() {
 		int i = 0;

@@ -101,8 +101,8 @@ public class CreditoEmConta implements FebrabanLote<CreditoEmConta>{
 	@SuppressWarnings("incomplete-switch")
 	@Override
 	public CreditoEmConta setLinhas(List<String> linhas) throws Exception {
-		header = new Header().fromLinha(linhas.get(0));
-		trailer = new Trailer().fromLinha(linhas.get(linhas.size()-1));
+		header = new Header().fromLine(linhas.get(0));
+		trailer = new Trailer().fromLine(linhas.get(linhas.size()-1));
 		linhas.remove(0);
 		linhas.remove(linhas.size()-1);
 		
@@ -111,13 +111,13 @@ public class CreditoEmConta implements FebrabanLote<CreditoEmConta>{
 					FebrabanSegmento.TipoSegmento.getByValue(linha.substring(13,14));
 			switch (tipoSegmento) {
 			case A:
-				segmentoA = new SegmentoA().fromLinha(linha);
+				segmentoA = new SegmentoA().fromLine(linha);
 				break;
 			case B:
-				segmentoB = new SegmentoB().fromLinha(linha);
+				segmentoB = new SegmentoB().fromLine(linha);
 				break;
 			case Z:
-				segmentoZ = new SegmentoZ().fromLinha(linha);
+				segmentoZ = new SegmentoZ().fromLine(linha);
 				break;
 			}
 		}
